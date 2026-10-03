@@ -1,6 +1,6 @@
 # Chapter 1 Exercises
 
-## Exercise 1
+## Exercise 1: Dining Philosophers with chopsticks
 
 ### Part 1
 
@@ -33,7 +33,7 @@ The idea is to allow the lock to keep a queue of the thread waiting for the lock
 
 _Implementation_: [DiningPhilosophersNoDeadlockNoStarvation](DiningPhilosophersNoDeadlockNoStarvation.java)
 
-## Ex. 2
+## Ex. 2: Safety or Liveness?
 
 | # |Type | the Bad thing that never happens / the Good thing eventually happens|
 |:--|:---------|:---------------------------------------------------------------|
@@ -49,7 +49,7 @@ _Implementation_: [DiningPhilosophersNoDeadlockNoStarvation](DiningPhilosophersN
 | 10 | Safety | You meet a Harvard man, yet you can't tell he's from Harvard. |
 
 
-## Ex. 3
+## Ex. 3: Myopic Alice and Bob
 
 Required properties:
 - mutual exclusion: Bob and the pets are never in the yard simultaneously.
@@ -74,3 +74,42 @@ _Initially_: both cans up. Bob puts food in the yard, leaves, and drops Alice's 
 4. Drop Alice's can.
 
 **Order matters:** reset your own can *before* dropping the other's; otherwise the other's signal could be erased, and both wait forever.
+
+## Ex. 4: Poor prisoners
+
+### Part 1: Switch is known to be initially off
+Let one prisoner be the consumer, and the other P-1 prisoners the producers. Here's the protocol:
+
+Every other prisoner:
+1. If the switch is off and you have never turned it on, turn it on.
+2. Otherwise, leave it unchanged.
+
+The consumer:
+1. If the switch is on, turn it off and increment its local counter by 1.
+2. Otherwise, do nothing.
+2. When the count = P-1, declare to the warden that everyone has visited the switch at least once.
+
+**Note:** "For any N, everyone eventually visits at least N times" means everyone visits **infinitely often**: no prisoner can ever stop for good. So even if the counter makes many visits before anyone else does, they just find the switch off and wait; they are guaranteed to come back after the others start signaling.
+
+### Part 2: Switch initial state unknown
+
+**Problem:** If the switch starts on, the counter may count one **fake** signal. Ignoring it isn't safe either: it might be a real signal from a prisoner who visited before the counter.
+
+**Idea:** Each non-counter signals **twice**, so one fake signal can't fool the counter.
+
+Every other prisoner:
+1. If the switch is off and you have turned it on **fewer than twice**,
+   turn it on.
+2. Otherwise, leave it unchanged.
+
+The consumer
+1. If the switch is on, turn it off and increment `count`.
+2. When `count = 2(P − 1)`, declare that everyone has visited.
+
+**Why `2(P − 1)`:** Check the worst case on each side of the target.
+- *Safety* (claim false, count as high as possible): one prisoner
+  missing, switch started on. Max count = `2(P − 2) + 1 = 2P − 3`,
+  which is below the target, so no wrong declaration.
+- *Liveness* (claim true, count as low as possible): switch started off.
+  The counter still receives all `2(P − 1)` signals, so it reaches the
+  target.
