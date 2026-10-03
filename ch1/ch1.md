@@ -113,3 +113,36 @@ The consumer
 - *Liveness* (claim true, count as low as possible): switch started off.
   The counter still receives all `2(P − 1)` signals, so it reaches the
   target.
+
+## Ex. 5: Poor prisoners with colorful hats
+
+**Idea:** Prisoner 1 (at the back) sacrifices himself to announce the **parity of the blue hats** in front. Everyone else then knows every hat except their own, plus the parity information of blues (from hearing Prisoner 1), so they can work out their own hat.
+
+**Agreed beforehand:** Prisoner 1 saying "red" means odd, "blue" means even. (vice versa is symmetric.)
+
+Prisoner 1:
+1. Count the blue hats on prisoners 2..P.
+2. Say "red" if the count is odd, "blue" if it's even.
+
+Prisoner n > 1:
+1. Count the blue hats **seen** in front (prisoners n+1..P) plus the "blue" answers **heard** from prisoners 2..n−1.
+2. If this count's parity matches the announced parity, say "red"; otherwise, say "blue".
+
+Prisoners 2..n−1 answer correctly, so prisoner n knows every hat among 2..P except his own. A blue hat flips the parity and a red one doesn't, so the mismatch reveals his color. Thus, prisoners 2..P are always freed; prisoner 1 survives with probability 1/2.
+
+```
+Prisoner 1:
+    if blues on 2..P is odd
+        say "red"
+    else
+        say "blue"
+
+Prisoner n > 1:
+    announcedOdd = (prisoner 1 said "red")
+    known = blues on n+1..P + "blue" answers from 2..n-1
+    if (known is odd) == announcedOdd
+        say "red"
+    else
+        say "blue"
+```
+
