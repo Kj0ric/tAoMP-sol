@@ -158,3 +158,21 @@ Total time:
 `t_N = 0.15 x sequential_cost/operation + (0.85/N) x parallel_cost/operation`
 
 Minimize t_N with `dT/dN = 0` which gives **N = 10**.
+
+## Ex. 7: Speedup bounded by the sequential fraction
+
+By the Amdahl's law, if a fraction `f` of the run time is sped up `k`-fold, `S = 1 / ((1 − f) + f/k)`.
+
+### Part 1
+
+M is the sequential 30%; the other 70% runs on `n` processors: `S(n) = 1 / (0.3 + 0.7/n)`. As `n → \infty`, the limit is `1/0.3 ≈ 3.33`.
+
+If the sequential fraction is `1-p` of a program, than the upper bound on the speedup is `1/(1-p)`. This is a consequence of the Amdahl's law.
+
+### Part 2
+
+Only M (40%) is sped up, so the run time is `0.6 + 0.4/k`, which never drops below 0.6. The best possible speedup is `1/0.6 ≈ 1.67`, so no `k` gives a speedup of 2.
+
+### Part 3
+
+With `k = 4`: `1 / ((1 − f) + f/4) = 2` gives `f = 2/3`. M must account for two-thirds of the run time.
