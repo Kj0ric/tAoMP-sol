@@ -146,3 +146,15 @@ Prisoner n > 1:
         say "blue"
 ```
 
+## Ex. 6: Optimal number of multiprocessors
+
+Operation costs depend on N. First compute the operation costs for the sequential and parallel part. Then compute the execution time with N multiprocessor using the formula `t_N = sequential_cost + parallel_cost / N`.
+
+Average cost per operation (80% non-memory ops with cost 1, 20% memory ops):
+- Sequential part: `0.8 x 1 unit + 0.2 x 14 unit = 3.6 unit`
+- Parallel part:  `0.8 x 1 unit + 0.2 x (N/(N+10) x (3N + 11) unit + 10/(N+10) x 1 unit) unit`
+
+Total time:
+`t_N = 0.15 x sequential_cost/operation + (0.85/N) x parallel_cost/operation`
+
+Minimize t_N with `dT/dN = 0` which gives **N = 10**.
