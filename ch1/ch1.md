@@ -176,3 +176,11 @@ Only M (40%) is sped up, so the run time is `0.6 + 0.4/k`, which never drops bel
 ### Part 3
 
 With `k = 4`: `1 / ((1 − f) + f/4) = 2` gives `f = 2/3`. M must account for two-thirds of the run time.
+
+## Ex. 8
+
+Use `S_2` to find the parallel fraction `p`, then plug it into Amdahl's law for `n` processors.
+
+From Amdahl's law with 2 processors: `S_2 = 1 / ((1 − p) + p/2)`  =>  `p = 2(S_2 − 1) / S_2`
+
+Substitute it into `S_n = 1 / ((1 − p) + p/n)` to get the answer.
