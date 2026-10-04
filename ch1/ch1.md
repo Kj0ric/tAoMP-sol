@@ -184,3 +184,12 @@ Use `S_2` to find the parallel fraction `p`, then plug it into Amdahl's law for 
 From Amdahl's law with 2 processors: `S_2 = 1 / ((1 − p) + p/2)`  =>  `p = 2(S_2 − 1) / S_2`
 
 Substitute it into `S_n = 1 / ((1 − p) + p/n)` to get the answer.
+
+## Ex. 9: Faster uniprocessor or multi slower processors?
+
+Let `p` be the parallel fraction.
+
+`t_uni = 1/5 unit`
+`t_multi = (1-p) + p/10 unit`
+
+`t_multi <= t_uni` (multiprocessor faster) only when `p >= 8/9`.
